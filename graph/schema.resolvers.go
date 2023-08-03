@@ -11,14 +11,55 @@ import (
 	"github.com/michael-m-truong/fitness-tracker/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// CreateExercise is the resolver for the createExercise field.
+func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewExercise) (*model.Exercise, error) {
+	panic(fmt.Errorf("not implemented: CreateExercise - createExercise"))
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// CreateEquipment is the resolver for the createEquipment field.
+func (r *mutationResolver) CreateEquipment(ctx context.Context, input model.NewEquipment) (*model.Equipment, error) {
+	panic(fmt.Errorf("not implemented: CreateEquipment - createEquipment"))
+}
+
+// CreateWorkout is the resolver for the createWorkout field.
+func (r *mutationResolver) CreateWorkout(ctx context.Context, input model.NewWorkout) (*model.Workout, error) {
+	panic(fmt.Errorf("not implemented: CreateWorkout - createWorkout"))
+}
+
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (string, error) {
+	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+}
+
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string, error) {
+	panic(fmt.Errorf("not implemented: Login - login"))
+}
+
+// RefreshToken is the resolver for the refreshToken field.
+func (r *mutationResolver) RefreshToken(ctx context.Context, input model.RefreshTokenInput) (string, error) {
+	panic(fmt.Errorf("not implemented: RefreshToken - refreshToken"))
+}
+
+// Exercises is the resolver for the exercises field.
+func (r *queryResolver) Exercises(ctx context.Context) ([]*model.Exercise, error) {
+	var exercises []*model.Exercise
+	dummyDescription := "our dummy link"
+
+	dummyExercise := model.Exercise{
+		Name:        "our dummy link",
+		Description: &dummyDescription,
+		Equipment:   &model.Equipment{ID: "equipment-id-1", Name: "Dumbbells"},
+		MuscleGroup: "our dummy link",
+		User:        &model.User{Name: "admin"},
+	}
+	exercises = append(exercises, &dummyExercise)
+	return exercises, nil
+}
+
+// Workouts is the resolver for the workouts field.
+func (r *queryResolver) Workouts(ctx context.Context) ([]*model.Workout, error) {
+	panic(fmt.Errorf("not implemented: Workouts - workouts"))
 }
 
 // Mutation returns MutationResolver implementation.

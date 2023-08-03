@@ -12,7 +12,7 @@ import (
 
 const defaultPort = "8080"
 
-func main() {
+func main() { //either manually go get all deps and generate or add -mod=mod -> go run -mod=mod github.com/99designs/gqlgen generate
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

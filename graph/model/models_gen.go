@@ -2,19 +2,70 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Equipment struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	User *User  `json:"user"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type EquipmentInput struct {
+	Name string `json:"name"`
+}
+
+type Exercise struct {
+	ID          string     `json:"id"`
+	Name        string     `json:"name"`
+	Description *string    `json:"description,omitempty"`
+	MuscleGroup string     `json:"muscleGroup"`
+	User        *User      `json:"user"`
+	Equipment   *Equipment `json:"equipment,omitempty"`
+}
+
+type ExerciseInput struct {
+	Name        string          `json:"name"`
+	Description *string         `json:"description,omitempty"`
+	MuscleGroup string          `json:"muscleGroup"`
+	Equipment   *EquipmentInput `json:"equipment,omitempty"`
+}
+
+type Login struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type NewEquipment struct {
+	Name string `json:"name"`
+}
+
+type NewExercise struct {
+	Name        string          `json:"name"`
+	Description *string         `json:"description,omitempty"`
+	MuscleGroup string          `json:"muscleGroup"`
+	Equipment   *EquipmentInput `json:"equipment,omitempty"`
+}
+
+type NewUser struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type NewWorkout struct {
+	Title    string           `json:"title"`
+	Exercise []*ExerciseInput `json:"exercise,omitempty"`
+}
+
+type RefreshTokenInput struct {
+	Token string `json:"token"`
 }
 
 type User struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type Workout struct {
+	ID       string      `json:"id"`
+	Title    string      `json:"title"`
+	User     *User       `json:"user"`
+	Exercise []*Exercise `json:"exercise,omitempty"`
 }

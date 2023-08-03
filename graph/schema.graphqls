@@ -2,7 +2,7 @@ type Exercise {
     id: ID!
     name: String!
     description: String
-    muscle_group: String
+    muscleGroup: String!
     user: User!
     equipment: Equipment  #use when want to add to exercise_equipment
 }
@@ -26,7 +26,8 @@ type User {
 }
 
 type Query {
-    links: [Link!]!
+    exercises: [Exercise!]!
+    workouts: [Workout!]!
 }
 
 # for inputs, server will handle id and user fields
@@ -34,8 +35,13 @@ type Query {
 input NewExercise {
     name: String!
     description: String
-    muscle_group: String!  #create a type in postgresql?
-    equipment: Equipment  #use when want to add to exercise_equipment
+    muscleGroup: String!  #create a type in postgresql?
+    equipment: EquipmentInput  #use when want to add to exercise_equipment
+}
+
+input EquipmentInput {
+  name: String!
+  # Any other fields related to Equipment that you want to include as input
 }
 
 input NewEquipment {
@@ -44,7 +50,14 @@ input NewEquipment {
 
 input NewWorkout {
     title: String!
-    exercise: [Exercise] #use when want to add exercise to workout
+    exercise: [ExerciseInput] #use when want to add exercise to workout
+}
+
+input ExerciseInput {
+    name: String!
+    description: String
+    muscleGroup: String!  #create a type in postgresql?
+    equipment: EquipmentInput  #use when want to add to exercise_equipment
 }
 
 input RefreshTokenInput{
@@ -62,7 +75,9 @@ input Login {
 }
 
 type Mutation {
-    createLink(input: NewLink!): Link!
+    createExercise(input: NewExercise!): Exercise!
+    createEquipment(input: NewEquipment!): Equipment!
+    createWorkout(input: NewWorkout!): Workout!
     createUser(input: NewUser!): String!
     login(input: Login!): String!
     # we'll talk about this in authentication section
