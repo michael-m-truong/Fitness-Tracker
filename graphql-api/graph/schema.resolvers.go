@@ -9,6 +9,8 @@ import (
 	"fmt"
 
 	"github.com/michael-m-truong/fitness-tracker/graph/model"
+	"github.com/michael-m-truong/fitness-tracker/pb"
+	services "github.com/michael-m-truong/fitness-tracker/services"
 )
 
 // CreateExercise is the resolver for the createExercise field.
@@ -37,6 +39,18 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 
 	// Here you may want to perform additional logic, such as saving the newExercise and its associated Equipment
 	// to a database.
+	req := &pb.Exercise{
+		Name:        input.Name,
+		Description: *input.Description,
+		MuscleGroup: input.MuscleGroup,
+	}
+
+	services.CreateExercise(req)
+	// resp, err := services.CreateExercise(req)
+	// if err != nil {
+	// 		// Handle the error
+	// 		return nil, err
+	// }
 
 	// Return the newly created exercise along with no error (nil).
 	return &newExercise, nil

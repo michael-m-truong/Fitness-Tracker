@@ -19,7 +19,7 @@ type exerciseServer struct {
 	pb.UnimplementedExerciseServiceServer
 }
 
-func (s *exerciseServer) AddExercise(ctx context.Context, req *pb.Exercise) (*pb.Exercise, error) {
+func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.Exercise) (*pb.Exercise, error) {
 	// Implement the logic to handle the incoming exercise request and save it to the database
 	fmt.Printf("Received Exercise: %+v\n", req)
 	return req, nil
