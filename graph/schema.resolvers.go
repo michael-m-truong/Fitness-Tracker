@@ -13,7 +13,33 @@ import (
 
 // CreateExercise is the resolver for the createExercise field.
 func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewExercise) (*model.Exercise, error) {
-	panic(fmt.Errorf("not implemented: CreateExercise - createExercise"))
+	// Initialize a new Exercise object with the data provided in the input.
+	newExercise := model.Exercise{
+		Name:        input.Name,
+		Description: input.Description,
+		MuscleGroup: input.MuscleGroup,
+	}
+
+	// Set a fixed value for the User field.
+	user := model.User{
+		Name: "Mike",
+	}
+	newExercise.User = &user
+
+	// If the EquipmentInput is provided in the input, create a new Equipment object and assign it to the Exercise.
+	if input.Equipment != nil {
+		newEquipment := model.Equipment{
+			Name: input.Equipment.Name,
+			User: &user, // Set the User field for the Equipment to the same fixed user.
+		}
+		newExercise.Equipment = &newEquipment
+	}
+
+	// Here you may want to perform additional logic, such as saving the newExercise and its associated Equipment
+	// to a database.
+
+	// Return the newly created exercise along with no error (nil).
+	return &newExercise, nil
 }
 
 // CreateEquipment is the resolver for the createEquipment field.
