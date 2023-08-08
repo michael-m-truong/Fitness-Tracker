@@ -15,6 +15,7 @@ func CreateExercise(req *pb.Exercise) (*pb.Exercise, error) {
 	grpcClient := client.GetExerciseClient()
 
 	// Send the RPC and get the response
+	req.UserId = 21
 	resp, err := grpcClient.CreateExercise(context.Background(), req)
 	if err != nil {
 		log.Fatalf("failed to call gRPC: %v", err)
@@ -25,6 +26,7 @@ func CreateExercise(req *pb.Exercise) (*pb.Exercise, error) {
 	log.Printf("Received Exercise Name: %s", resp.Name)
 	log.Printf("Received Muscle Group: %s", resp.MuscleGroup)
 	log.Printf("Received Description: %s", resp.Description)
+	log.Printf("Received Description: %s", resp.UserId)
 
 	return resp, nil
 }

@@ -40,9 +40,13 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 	// Here you may want to perform additional logic, such as saving the newExercise and its associated Equipment
 	// to a database.
 	req := &pb.Exercise{
-		Name:        input.Name,
-		Description: *input.Description,
+		Name: input.Name,
+		//Description: *input.Description,
 		MuscleGroup: input.MuscleGroup,
+	}
+
+	if input.Description != nil {
+		req.Description = *input.Description
 	}
 
 	services.CreateExercise(req)

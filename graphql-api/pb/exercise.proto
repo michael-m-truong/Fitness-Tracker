@@ -10,6 +10,7 @@ message Exercise {
     string name = 1;
     string description = 2;
     string muscle_group = 3;
+    int32 user_id = 4;
 }
 
 service ExerciseService {
