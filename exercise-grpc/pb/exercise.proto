@@ -6,10 +6,15 @@ option go_package = "github.com/michael-m-truong/exercise-grpc/pb";
 
 //protoc --go_out=paths=source_relative:pb --go-grpc_out=paths=source_relative:pb exercise.proto
 
+//use this one
+//protoc --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. ./pb/exercise.proto
+
+
 message Exercise {
     string name = 1;
     string description = 2;
     string muscle_group = 3;
+    int32 user_id = 4;
 }
 
 service ExerciseService {

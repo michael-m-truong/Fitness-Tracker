@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.23.4
-// source: exercise.proto
+// source: pb/exercise.proto
 
 package pb
 
@@ -101,5 +101,5 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "exercise.proto",
+	Metadata: "pb/exercise.proto",
 }
