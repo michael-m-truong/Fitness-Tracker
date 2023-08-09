@@ -26,7 +26,7 @@ func CreateExercise(req *pb.Exercise) (*pb.Exercise, error) {
 	log.Printf("Received Exercise Name: %s", resp.Name)
 	log.Printf("Received Muscle Group: %s", resp.MuscleGroup)
 	log.Printf("Received Description: %s", resp.Description)
-	log.Printf("Received Description: %s", resp.UserId)
+	log.Printf("Received UserID: %d", resp.UserId)
 
 	return resp, nil
 }
