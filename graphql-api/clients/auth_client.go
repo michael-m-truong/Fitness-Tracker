@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	grpcExerciseClient pb.ExerciseServiceClient
+	grpcAuthClient pb.AuthServiceClient
 )
 
 func init() {
@@ -18,10 +18,10 @@ func init() {
 	}
 
 	// Create the gRPC client
-	grpcExerciseClient = pb.NewExerciseServiceClient(conn)
+	grpcAuthClient = pb.NewAuthServiceClient(conn)
 }
 
 // GetExerciseClient returns the gRPC client instance
-func GetExerciseClient() pb.ExerciseServiceClient {
-	return grpcExerciseClient
+func GetAuthClient() pb.AuthServiceClient {
+	return grpcAuthClient
 }

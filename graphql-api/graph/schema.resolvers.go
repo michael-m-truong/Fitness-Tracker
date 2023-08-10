@@ -72,12 +72,40 @@ func (r *mutationResolver) CreateWorkout(ctx context.Context, input model.NewWor
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (string, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+	// Create a User request from the input
+	userReq := &pb.User{
+		Username: input.Username,
+		Password: input.Password,
+		// Add other fields as needed
+	}
+
+	// Call the CreateUser service
+	newUserResp, err := services.CreateUser(userReq)
+	if err != nil {
+		return "", err
+	}
+
+	// Return a success message or relevant information
+	return fmt.Sprintf("User %s created with ID %d", newUserResp.Username, newUserResp.UserId), nil
 }
 
 // Login is the resolver for the login field.
 func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string, error) {
-	panic(fmt.Errorf("not implemented: Login - login"))
+	// Create a User request from the input
+	userReq := &pb.User{
+		Username: input.Username,
+		Password: input.Password,
+	}
+
+	// Call the Login service
+	accessTokenResp, err := services.Login(userReq)
+	if err != nil {
+		// Handle authentication errors
+		return "", err
+	}
+
+	// Return the access token
+	return accessTokenResp.Token, nil
 }
 
 // RefreshToken is the resolver for the refreshToken field.

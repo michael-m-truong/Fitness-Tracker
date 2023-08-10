@@ -47,6 +47,7 @@ func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.Exercise) (
 
 func main() {
 	flag.Parse()
+	// docker run -d --name postgres-container -e POSTGRES_PASSWORD=mysecretpassword -v <volume_name>:/var/lib/postgresql/data -p 5433:5432 postgres:latest
 
 	// Initialize the database connection
 	if err := initDB(); err != nil {
