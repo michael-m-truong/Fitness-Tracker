@@ -25,7 +25,6 @@ type AuthServiceClient interface {
 	Login(ctx context.Context, in *User, opts ...grpc.CallOption) (*AccessToken, error)
 	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*NewUser, error)
 	ParseToken(ctx context.Context, in *AccessToken, opts ...grpc.CallOption) (*User, error)
-	GenerateToken(ctx context.Context, in *User, opts ...grpc.CallOption) (*AccessToken, error)
 }
 
 type authServiceClient struct {
@@ -63,15 +62,6 @@ func (c *authServiceClient) ParseToken(ctx context.Context, in *AccessToken, opt
 	return out, nil
 }
 
-func (c *authServiceClient) GenerateToken(ctx context.Context, in *User, opts ...grpc.CallOption) (*AccessToken, error) {
-	out := new(AccessToken)
-	err := c.cc.Invoke(ctx, "/pb.AuthService/GenerateToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility
@@ -79,7 +69,6 @@ type AuthServiceServer interface {
 	Login(context.Context, *User) (*AccessToken, error)
 	CreateUser(context.Context, *User) (*NewUser, error)
 	ParseToken(context.Context, *AccessToken) (*User, error)
-	GenerateToken(context.Context, *User) (*AccessToken, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -95,9 +84,6 @@ func (UnimplementedAuthServiceServer) CreateUser(context.Context, *User) (*NewUs
 }
 func (UnimplementedAuthServiceServer) ParseToken(context.Context, *AccessToken) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ParseToken not implemented")
-}
-func (UnimplementedAuthServiceServer) GenerateToken(context.Context, *User) (*AccessToken, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GenerateToken not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 
@@ -166,24 +152,6 @@ func _AuthService_ParseToken_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthService_GenerateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).GenerateToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.AuthService/GenerateToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).GenerateToken(ctx, req.(*User))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,10 +170,6 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ParseToken",
 			Handler:    _AuthService_ParseToken_Handler,
-		},
-		{
-			MethodName: "GenerateToken",
-			Handler:    _AuthService_GenerateToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

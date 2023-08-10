@@ -73,16 +73,17 @@ func ParseToken(token string) (*pb.User, error) {
 	return resp, nil
 }
 
+/* Token will be generated on login anyway */
 // GenerateToken is a function that generates an access token for a user.
-func GenerateToken(user *pb.User) (*pb.AccessToken, error) {
-	// Get the gRPC auth client instance
-	grpcClient := client.GetAuthClient()
+// func GenerateToken(user *pb.User) (*pb.AccessToken, error) {
+// 	// Get the gRPC auth client instance
+// 	grpcClient := client.GetAuthClient()
 
-	// Call the GenerateToken service
-	resp, err := grpcClient.GenerateToken(context.Background(), user)
-	if err != nil {
-		return nil, err
-	}
+// 	// Call the GenerateToken service
+// 	resp, err := grpcClient.GenerateToken(context.Background(), user)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	return resp, nil
-}
+// 	return resp, nil
+// }

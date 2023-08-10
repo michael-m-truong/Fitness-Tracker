@@ -7,7 +7,7 @@ option go_package = "github.com/michael-m-truong/auth-grpc/pb";
 //protoc --go_out=paths=source_relative:pb --go-grpc_out=paths=source_relative:pb exercise.proto
 
 //use this one
-//protoc --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. ./pb/exercise.proto
+//protoc --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. ./pb/auth.proto
 
 message User {
     string username = 1;
@@ -28,5 +28,5 @@ service AuthService {
     rpc CreateUser(User) returns (NewUser);
 
     rpc ParseToken(AccessToken) returns (User);
-    rpc GenerateToken(User) returns (AccessToken);
+    //rpc GenerateToken(User) returns (AccessToken);
 }

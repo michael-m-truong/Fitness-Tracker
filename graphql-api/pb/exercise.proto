@@ -36,5 +36,5 @@ service AuthService {
     rpc CreateUser(User) returns (NewUser);
 
     rpc ParseToken(AccessToken) returns (User);
-    rpc GenerateToken(User) returns (AccessToken);
+    //rpc GenerateToken(User) returns (AccessToken);
 }

@@ -9,7 +9,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi"
 	"github.com/michael-m-truong/fitness-tracker/graph"
-	"github.com/michael-m-truong/fitness-tracker/middleware"
 )
 
 const defaultPort = "8080"
@@ -21,7 +20,7 @@ func main() { //either manually go get all deps and generate or add -mod=mod -> 
 	}
 
 	router := chi.NewRouter()
-	router.Use(middleware.Auth())
+	//router.Use(middleware.Auth())
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 
@@ -29,5 +28,5 @@ func main() { //either manually go get all deps and generate or add -mod=mod -> 
 	router.Handle("/query", srv)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
