@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/michael-m-truong/auth-grpc/pb"; 
+
+//protoc --go_out=paths=source_relative:pb --go-grpc_out=paths=source_relative:pb exercise.proto
+
+//use this one
+//protoc --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. ./pb/exercise.proto
+
+message User {
+    string username = 1;
+    string password = 2;
+}
+
+message NewUser {
+    int32 user_id = 1;
+    string username = 2;
+}
+
+message AccessToken {
+    string token = 1;
+}
+
+service AuthService {
+    rpc Login(User) returns (AccessToken);
+    rpc CreateUser(User) returns (NewUser);
+
+    rpc ParseToken(AccessToken) returns (User);
+    rpc GenerateToken(User) returns (AccessToken);
+}
