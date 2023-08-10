@@ -22,7 +22,7 @@ type exerciseServer struct {
 	pb.UnimplementedExerciseServiceServer
 }
 
-func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.Exercise) (*pb.Exercise, error) {
+func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.NewExercise) (*pb.Exercise, error) {
 	fmt.Printf("Received Exercise: %+v\n", req)
 
 	db := getDB() // Access the singleton database instance
@@ -39,10 +39,14 @@ func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.Exercise) (
 	if err != nil {
 		return nil, err
 	}
+	exercise := &pb.Exercise{
+		Id:       int32(insertedID),
+		Exercise: req,
+	}
 
 	// Update the request with the inserted ID
 
-	return req, nil
+	return exercise, nil
 }
 
 func main() {

@@ -12,7 +12,7 @@ var (
 
 func init() {
 	// Create a gRPC connection to the server
-	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("localhost:50052", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic("failed to connect to gRPC server")
 	}

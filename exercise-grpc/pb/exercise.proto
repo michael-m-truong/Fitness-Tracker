@@ -11,6 +11,11 @@ option go_package = "github.com/michael-m-truong/exercise-grpc/pb";
 
 
 message Exercise {
+    int32 id = 1;
+    NewExercise exercise = 2;
+}
+
+message NewExercise {
     string name = 1;
     string description = 2;
     string muscle_group = 3;
@@ -18,5 +23,5 @@ message Exercise {
 }
 
 service ExerciseService {
-    rpc CreateExercise(Exercise) returns (Exercise);
+    rpc CreateExercise(NewExercise) returns (Exercise);
 }

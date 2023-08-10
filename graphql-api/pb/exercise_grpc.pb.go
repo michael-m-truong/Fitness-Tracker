@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ExerciseServiceClient interface {
-	CreateExercise(ctx context.Context, in *Exercise, opts ...grpc.CallOption) (*Exercise, error)
+	CreateExercise(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error)
 }
 
 type exerciseServiceClient struct {
@@ -33,7 +33,7 @@ func NewExerciseServiceClient(cc grpc.ClientConnInterface) ExerciseServiceClient
 	return &exerciseServiceClient{cc}
 }
 
-func (c *exerciseServiceClient) CreateExercise(ctx context.Context, in *Exercise, opts ...grpc.CallOption) (*Exercise, error) {
+func (c *exerciseServiceClient) CreateExercise(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error) {
 	out := new(Exercise)
 	err := c.cc.Invoke(ctx, "/pb.ExerciseService/CreateExercise", in, out, opts...)
 	if err != nil {
@@ -46,7 +46,7 @@ func (c *exerciseServiceClient) CreateExercise(ctx context.Context, in *Exercise
 // All implementations must embed UnimplementedExerciseServiceServer
 // for forward compatibility
 type ExerciseServiceServer interface {
-	CreateExercise(context.Context, *Exercise) (*Exercise, error)
+	CreateExercise(context.Context, *NewExercise) (*Exercise, error)
 	mustEmbedUnimplementedExerciseServiceServer()
 }
 
@@ -54,7 +54,7 @@ type ExerciseServiceServer interface {
 type UnimplementedExerciseServiceServer struct {
 }
 
-func (UnimplementedExerciseServiceServer) CreateExercise(context.Context, *Exercise) (*Exercise, error) {
+func (UnimplementedExerciseServiceServer) CreateExercise(context.Context, *NewExercise) (*Exercise, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateExercise not implemented")
 }
 func (UnimplementedExerciseServiceServer) mustEmbedUnimplementedExerciseServiceServer() {}
@@ -71,7 +71,7 @@ func RegisterExerciseServiceServer(s grpc.ServiceRegistrar, srv ExerciseServiceS
 }
 
 func _ExerciseService_CreateExercise_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Exercise)
+	in := new(NewExercise)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func _ExerciseService_CreateExercise_Handler(srv interface{}, ctx context.Contex
 		FullMethod: "/pb.ExerciseService/CreateExercise",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ExerciseServiceServer).CreateExercise(ctx, req.(*Exercise))
+		return srv.(ExerciseServiceServer).CreateExercise(ctx, req.(*NewExercise))
 	}
 	return interceptor(ctx, in, info, handler)
 }

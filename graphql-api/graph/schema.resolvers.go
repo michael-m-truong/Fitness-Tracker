@@ -7,14 +7,21 @@ package graph
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/michael-m-truong/fitness-tracker/graph/model"
+	auth "github.com/michael-m-truong/fitness-tracker/middleware"
 	"github.com/michael-m-truong/fitness-tracker/pb"
 	services "github.com/michael-m-truong/fitness-tracker/services"
 )
 
 // CreateExercise is the resolver for the createExercise field.
 func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewExercise) (*model.Exercise, error) {
+	auth_user := auth.ForContext(ctx)
+	if auth_user == nil {
+		return &model.Exercise{}, fmt.Errorf("access denied")
+	}
+
 	// Initialize a new Exercise object with the data provided in the input.
 	newExercise := model.Exercise{
 		Name:        input.Name,
@@ -24,7 +31,7 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 
 	// Set a fixed value for the User field.
 	user := model.User{
-		Name: "Mike",
+		Name: auth_user.Username,
 	}
 	newExercise.User = &user
 
@@ -39,7 +46,7 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 
 	// Here you may want to perform additional logic, such as saving the newExercise and its associated Equipment
 	// to a database.
-	req := &pb.Exercise{
+	req := &pb.NewExercise{
 		Name: input.Name,
 		//Description: *input.Description,
 		MuscleGroup: input.MuscleGroup,
@@ -49,7 +56,12 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 		req.Description = *input.Description
 	}
 
-	services.CreateExercise(req)
+	resp, err := services.CreateExercise(req)
+	if err != nil {
+		return nil, err
+	}
+
+	newExercise.ID = strconv.Itoa(int(resp.Id))
 	// resp, err := services.CreateExercise(req)
 	// if err != nil {
 	// 		// Handle the error

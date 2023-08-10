@@ -7,6 +7,11 @@ option go_package = "github.com/michael-m-truong/fitness-tracker/pb";
 //protoc --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. ./pb/exercise.proto
 
 message Exercise {
+    int32 id = 1;
+    NewExercise exercise = 2;
+}
+
+message NewExercise {
     string name = 1;
     string description = 2;
     string muscle_group = 3;
@@ -28,7 +33,7 @@ message AccessToken {
 }
 
 service ExerciseService {
-    rpc CreateExercise(Exercise) returns (Exercise);
+    rpc CreateExercise(NewExercise) returns (Exercise);
 }
 
 service AuthService {
