@@ -92,7 +92,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	}
 
 	// Call the CreateUser service
-	newUserResp, err := services.CreateUser(userReq)
+	newUserResp, err := r.AuthService.CreateUser(userReq)
 	if err != nil {
 		return "", err
 	}
@@ -110,7 +110,7 @@ func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string
 	}
 
 	// Call the Login service
-	accessTokenResp, err := services.Login(userReq)
+	accessTokenResp, err := r.AuthService.Login(userReq)
 	if err != nil {
 		// Handle authentication errors
 		return "", err

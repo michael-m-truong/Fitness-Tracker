@@ -14,7 +14,15 @@ type contextKey struct {
 	name string
 }
 
-func Auth() func(http.Handler) http.Handler {
+type IAuthMiddleware interface {
+	Auth() func(http.Handler) http.Handler
+}
+
+type AuthMiddleware struct {
+	AuthService services.IAuthService
+}
+
+func (mw AuthMiddleware) Auth() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			header := r.Header.Get("Authorization")
@@ -27,7 +35,7 @@ func Auth() func(http.Handler) http.Handler {
 
 			// Validate JWT token using the auth service client
 			tokenStr := header
-			user, err := services.ParseToken(tokenStr)
+			user, err := mw.AuthService.ParseToken(tokenStr)
 			if err != nil {
 				http.Error(w, "Invalid token", http.StatusForbidden)
 				return

@@ -14,11 +14,19 @@ import (
 
 type WrongUsernameOrPasswordError struct{}
 
+type IAuthService interface {
+	CreateUser(req *pb.User) (*pb.NewUser, error)
+	Login(userReq *pb.User) (*pb.AccessToken, error)
+	ParseToken(token string) (*pb.User, error)
+}
+
+type AuthResolverService struct{}
+
 func (m *WrongUsernameOrPasswordError) Error() string {
 	return "wrong username or password"
 }
 
-func CreateUser(req *pb.User) (*pb.NewUser, error) {
+func (service AuthResolverService) CreateUser(req *pb.User) (*pb.NewUser, error) {
 	// Get the gRPC auth client instance
 	grpcClient := client.GetAuthClient()
 
@@ -36,7 +44,7 @@ func CreateUser(req *pb.User) (*pb.NewUser, error) {
 }
 
 // Login is a function that authenticates a user and generates an access token.
-func Login(userReq *pb.User) (*pb.AccessToken, error) {
+func (service AuthResolverService) Login(userReq *pb.User) (*pb.AccessToken, error) {
 	// Get the gRPC auth client instance
 	grpcClient := client.GetAuthClient()
 
@@ -60,7 +68,7 @@ func Login(userReq *pb.User) (*pb.AccessToken, error) {
 }
 
 // ParseToken is a function that parses a token and returns the user associated with it.
-func ParseToken(token string) (*pb.User, error) {
+func (service AuthResolverService) ParseToken(token string) (*pb.User, error) {
 	// Get the gRPC auth client instance
 	grpcClient := client.GetAuthClient()
 

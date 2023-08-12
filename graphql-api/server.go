@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/michael-m-truong/fitness-tracker/graph"
 	"github.com/michael-m-truong/fitness-tracker/middleware"
+	"github.com/michael-m-truong/fitness-tracker/services"
 )
 
 const defaultPort = "8080"
@@ -21,9 +22,23 @@ func main() { //either manually go get all deps and generate or add -mod=mod -> 
 	}
 
 	router := chi.NewRouter()
-	router.Use(middleware.Auth())
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	//Init services
+	authService := services.AuthResolverService{}
+
+	//Init middleware
+	authMiddleware := middleware.AuthMiddleware{
+		AuthService: authService,
+	}
+
+	router.Use(authMiddleware.Auth())
+
+	// Pass your service to the resolver
+	resolver := &graph.Resolver{
+		AuthService: authService,
+	}
+
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))
 
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	router.Handle("/query", srv)
