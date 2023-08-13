@@ -85,10 +85,16 @@ func (s *authServer) CreateUser(ctx context.Context, req *pb.User) (*pb.NewUser,
 		return nil, err
 	}
 
+	tokenString, err := jwt.GenerateToken(req.Username)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Failed to generate token")
+	}
+
 	// Create a NewUser response
 	newUser := &pb.NewUser{
-		UserId:   userID,
-		Username: req.Username,
+		UserId:      userID,
+		Username:    req.Username,
+		AccessToken: tokenString,
 	}
 
 	return newUser, nil

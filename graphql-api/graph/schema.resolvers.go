@@ -96,9 +96,13 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	if err != nil {
 		return "", err
 	}
+	if newUserResp.UserId == 0 {
+		return "", err
+	}
 
 	// Return a success message or relevant information
-	return fmt.Sprintf("User %s created with ID %d", newUserResp.Username, newUserResp.UserId), nil
+	return newUserResp.AccessToken, nil
+	//return fmt.Sprintf("User %s created with ID %d", newUserResp.Username, newUserResp.UserId), nil
 }
 
 // Login is the resolver for the login field.
