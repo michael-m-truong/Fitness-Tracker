@@ -8,7 +8,7 @@ import (
 	// Import your models package
 	"github.com/michael-m-truong/fitness-tracker/graph"
 	"github.com/michael-m-truong/fitness-tracker/graph/model"
-	mock "github.com/michael-m-truong/fitness-tracker/mocks"
+	stub "github.com/michael-m-truong/fitness-tracker/stubs"
 	"github.com/stretchr/testify/assert" // Import the testify assertion library
 )
 
@@ -23,7 +23,7 @@ func TestCreateUser(t *testing.T) {
 
 	// Create a new instance of your resolver
 	resolver := &graph.Resolver{
-		AuthService: mock.MockAuthService{},
+		AuthService: stub.StubAuthService{},
 	}
 
 	// Invoke the resolver function

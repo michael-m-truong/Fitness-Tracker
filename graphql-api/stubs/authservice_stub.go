@@ -1,11 +1,11 @@
-package mock
+package stub
 
 import "github.com/michael-m-truong/fitness-tracker/pb"
 
-type MockAuthService struct {
+type StubAuthService struct {
 }
 
-func (service MockAuthService) CreateUser(req *pb.User) (*pb.NewUser, error) {
+func (service StubAuthService) CreateUser(req *pb.User) (*pb.NewUser, error) {
 	newUser := &pb.NewUser{
 		Username:    "TestUser",
 		UserId:      1,
@@ -14,16 +14,16 @@ func (service MockAuthService) CreateUser(req *pb.User) (*pb.NewUser, error) {
 	return newUser, nil
 }
 
-func (service MockAuthService) Login(userReq *pb.User) (*pb.AccessToken, error) {
-	// Mock implementation for Login
+func (service StubAuthService) Login(userReq *pb.User) (*pb.AccessToken, error) {
+	// Stub implementation for Login
 	accessToken := &pb.AccessToken{
 		// Initialize fields as needed
 	}
 	return accessToken, nil
 }
 
-func (service MockAuthService) ParseToken(token string) (*pb.User, error) {
-	// Mock implementation for ParseToken
+func (service StubAuthService) ParseToken(token string) (*pb.User, error) {
+	// Stub implementation for ParseToken
 	user := &pb.User{
 		// Initialize fields as needed
 	}
