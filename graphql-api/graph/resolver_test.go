@@ -1,12 +1,11 @@
 // resolver_test.go
-package test
+package graph
 
 import (
 	"context"
 	"testing"
 
 	// Import your models package
-	"github.com/michael-m-truong/fitness-tracker/graph"
 	"github.com/michael-m-truong/fitness-tracker/graph/model"
 	stub "github.com/michael-m-truong/fitness-tracker/stubs"
 	"github.com/stretchr/testify/assert" // Import the testify assertion library
@@ -22,7 +21,7 @@ func TestCreateUser(t *testing.T) {
 	expectedCharacter := "randomaccesstoken"
 
 	// Create a new instance of your resolver
-	resolver := &graph.Resolver{
+	resolver := &Resolver{
 		AuthService: stub.StubAuthService{},
 	}
 
