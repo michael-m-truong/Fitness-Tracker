@@ -22,6 +22,7 @@ jobs:
     - name: Run tests and generate coverage report
       run: |
         cd graphql-api
+        go get -t ./...
         go test -coverprofile=coverage.out ./...
         go tool cover -func=coverage.out
 
