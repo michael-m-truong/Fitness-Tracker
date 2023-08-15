@@ -22,12 +22,12 @@ jobs:
     - name: Run tests and generate coverage report
       run: |
         cd graphql-api
-        go get -t ./...
+        
         go test -coverprofile=coverage.out ./...
         go tool cover -func=coverage.out
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.out
