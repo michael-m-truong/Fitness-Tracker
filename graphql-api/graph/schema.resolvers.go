@@ -96,7 +96,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	if err != nil {
 		return "", err
 	}
-	if newUserResp.UserId == 0 {
+	if newUserResp.UserId == 0 { //TODO: instead of check 0 check null soon
 		return "", err
 	}
 
