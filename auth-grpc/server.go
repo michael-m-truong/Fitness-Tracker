@@ -88,7 +88,7 @@ func (s *authServer) ParseToken(ctx context.Context, req *pb.AccessToken) (*pb.U
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid token")
 	}
 
-	_, err = service.GetUserIdByUsername(username)
+	_, err = repository.GetUserIdByUsername(username)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid token")
 	}
@@ -101,7 +101,7 @@ func main() {
 	flag.Parse()
 
 	// Initialize the database connection
-	if err := repository.GetDB(); err != nil {
+	if _, err := repository.GetDB(); err != nil {
 		log.Fatal(err)
 	}
 

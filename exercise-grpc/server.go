@@ -9,6 +9,7 @@ import (
 
 	_ "github.com/lib/pq"
 	pb "github.com/michael-m-truong/exercise-grpc/pb" // Import the generated gRPC code
+	repository "github.com/michael-m-truong/exercise-grpc/repositories"
 
 	// Import the dotenv package
 	"google.golang.org/grpc"
@@ -23,28 +24,16 @@ type exerciseServer struct {
 }
 
 func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.NewExercise) (*pb.Exercise, error) {
-	fmt.Printf("Received Exercise: %+v\n", req)
 
-	db := getDB() // Access the singleton database instance
-	// Prepare the INSERT query with placeholders
-	insertQuery := `
-		INSERT INTO exercise (name, description, muscle_group, user_id)
-		VALUES ($1, $2, $3, $4)
-		RETURNING id
-	`
-
-	// Execute the INSERT query with parameters and retrieve the inserted exercise's ID
-	var insertedID int
-	err := db.QueryRowContext(ctx, insertQuery, req.Name, req.Description, req.MuscleGroup, req.UserId).Scan(&insertedID)
+	insertedID, err := repository.CreateExercise(ctx, req)
 	if err != nil {
 		return nil, err
 	}
+
 	exercise := &pb.Exercise{
-		Id:       int32(insertedID),
+		Id:       int32(*insertedID),
 		Exercise: req,
 	}
-
-	// Update the request with the inserted ID
 
 	return exercise, nil
 }
@@ -54,7 +43,7 @@ func main() {
 	// docker run -d --name postgres-container -e POSTGRES_PASSWORD=mysecretpassword -v <volume_name>:/var/lib/postgresql/data -p 5433:5432 postgres:latest
 
 	// Initialize the database connection
-	if err := initDB(); err != nil {
+	if _, err := repository.GetDB(); err != nil {
 		log.Fatal(err)
 	}
 

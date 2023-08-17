@@ -1,4 +1,4 @@
-package respository
+package repository
 
 import (
 	"database/sql"
@@ -37,7 +37,7 @@ func init() {
 	dbPort = os.Getenv("DB_PORT")
 	dbName = os.Getenv("DB_NAME")
 
-	initDB()
+	//initDB()
 }
 
 func initDB() error {
@@ -63,11 +63,13 @@ func initDB() error {
 }
 
 // GetDB returns the singleton database connection instance
-func GetDB() *sql.DB {
+func GetDB() (*sql.DB, error) {
+	var initErr error
 	dbMutex.Do(func() {
-		if err := initDB(); err != nil {
-			log.Fatal(err)
-		}
+		initErr = initDB()
 	})
-	return db
+	if initErr != nil {
+		return nil, initErr
+	}
+	return db, nil
 }

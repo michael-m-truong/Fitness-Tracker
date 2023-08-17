@@ -2,11 +2,9 @@ package service
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/michael-m-truong/auth-grpc/jwt"
 	"github.com/michael-m-truong/auth-grpc/pb"
-	repository "github.com/michael-m-truong/auth-grpc/repositories"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -107,24 +105,4 @@ func ParseToken(ctx context.Context, req *pb.AccessToken) (*pb.User, error) {
 
 	// For demonstration, returning a user with the parsed username
 	return &pb.User{Username: username}, nil
-}
-
-func GetUserIdByUsername(username string) (int32, error) {
-
-	db := repository.GetDB() // Access the singleton database instance
-
-	// Prepare the SQL query to retrieve user ID by username
-	query := "SELECT id FROM user WHERE username = $1"
-	row := db.QueryRow(query, username)
-
-	var userID int32
-	err := row.Scan(&userID)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return 0, status.Errorf(codes.NotFound, "User not found")
-		}
-		return 0, err
-	}
-
-	return userID, nil
 }
