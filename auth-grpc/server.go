@@ -71,6 +71,7 @@ func (s *authServer) CreateUser(ctx context.Context, req *pb.User) (*pb.NewUser,
 	}
 
 	// Create a NewUser response
+	// TODO: figure out how to maybe pass nil values in proto
 	newUser := &pb.NewUser{
 		UserId:      *userID,
 		Username:    req.Username,

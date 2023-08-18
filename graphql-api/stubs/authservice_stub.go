@@ -17,7 +17,7 @@ func (service StubAuthService) CreateUser(req *pb.User) (*pb.NewUser, error) {
 func (service StubAuthService) Login(userReq *pb.User) (*pb.AccessToken, error) {
 	// Stub implementation for Login
 	accessToken := &pb.AccessToken{
-		// Initialize fields as needed
+		Token: "randomaccesstoken",
 	}
 	return accessToken, nil
 }

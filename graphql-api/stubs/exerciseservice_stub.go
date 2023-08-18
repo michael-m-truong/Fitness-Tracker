@@ -7,8 +7,8 @@ type StubExerciseService struct {
 
 func (service StubExerciseService) CreateExercise(req *pb.NewExercise) (*pb.Exercise, error) {
 	newExercise := &pb.NewExercise{
-		Name:        "Push-up",
-		Description: "Make sure to go to the floor or 90 degrees",
+		Name:        "Benchpress",
+		Description: "Focus on form",
 		MuscleGroup: "Chest",
 		UserId:      1,
 	}

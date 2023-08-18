@@ -131,7 +131,8 @@ func (r *mutationResolver) RefreshToken(ctx context.Context, input model.Refresh
 
 // Exercises is the resolver for the exercises field.
 func (r *queryResolver) Exercises(ctx context.Context) ([]*model.Exercise, error) {
-	var exercises []*model.Exercise
+	panic(fmt.Errorf("not implemented: Exercises - Exercises"))
+	/*var exercises []*model.Exercise
 	dummyDescription := "our dummy link"
 
 	dummyExercise := model.Exercise{
@@ -142,7 +143,7 @@ func (r *queryResolver) Exercises(ctx context.Context) ([]*model.Exercise, error
 		User:        &model.User{Name: "admin"},
 	}
 	exercises = append(exercises, &dummyExercise)
-	return exercises, nil
+	return exercises, nil */
 }
 
 // Workouts is the resolver for the workouts field.

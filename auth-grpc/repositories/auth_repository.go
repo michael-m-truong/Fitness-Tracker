@@ -44,10 +44,11 @@ func CreateUser(ctx context.Context, username string, passwordHash string) (*int
 		RETURNING id
 	`
 
+	var noID *int32 = new(int32) // pointer to 0
 	var userID *int32
 	err = db.QueryRowContext(ctx, insertQuery, username, passwordHash).Scan(&userID)
 	if err != nil {
-		return nil, err
+		return noID, err
 	}
 
 	return userID, nil

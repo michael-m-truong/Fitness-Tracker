@@ -25,6 +25,7 @@ type User {
     name: String!
 }
 
+# TODO: add query equipment, add equipment to exercise, add sets reps to workout
 type Query {
     exercises: [Exercise!]!
     workouts: [Workout!]!

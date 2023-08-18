@@ -67,10 +67,13 @@ func TestCreateExercise(t *testing.T) {
 	// Put user information in the context
 	stubContext := context.WithValue(ctx, auth.UserCtxKey, authUser)
 
+	stubEquipment := model.EquipmentInput{Name: "Barbell"}
+
 	stubInput := model.NewExercise{
 		Name:        "Push-Up",
-		Description: ptrString("Make sure to go to the floor or 90 degrees"),
+		Description: ptrString("Focus on form"),
 		MuscleGroup: "Chest",
+		Equipment:   &stubEquipment,
 	}
 	expectedID := "123" // Stubbed ID
 
@@ -85,49 +88,67 @@ func TestCreateExercise(t *testing.T) {
 	assert.Equal(t, expectedID, result.ID)
 }
 
-/*func TestCreateEquipment(t *testing.T) {
+func TestCreateEquipment(t *testing.T) {
 	stubContext := context.Background()
 	stubInput := model.NewEquipment{
 		Name: "Dumbbells",
 	}
-	expectedID := "equipment-id-1"
+	//expectedID := "equipment-id-1"
 
 	resolver := &Resolver{
 		AuthService: stub.StubAuthService{},
 	}
 
-	result, err := resolver.Mutation().CreateEquipment(stubContext, stubInput)
+	assert.Panics(t, func() {
+		resolver.Mutation().CreateEquipment(stubContext, stubInput)
+	})
 
-	assert.Error(t, err)  // Function is not implemented, expecting error
-	assert.Nil(t, result) // Result should be nil
-	assert.Equal(t, expectedID, result.ID)
-} */
+	//result, err := resolver.Mutation().CreateEquipment(stubContext, stubInput)
 
-/*func TestCreateWorkout(t *testing.T) {
+	//assert.Error(t, err)  // Function is not implemented, expecting error
+	//assert.Nil(t, result) // Result should be nil
+	//assert.Equal(t, expectedID, result.ID)
+}
+
+func TestCreateWorkout(t *testing.T) {
 	stubContext := context.Background()
 	stubInput := model.NewWorkout{
-		Name: "Upper Body Routine",
+		Title: "Upper Body Routine",
+		//TODO: Change it to a new type exercise where you just input ID or something
+		Exercise: []*model.ExerciseInput{
+			{
+				Name:        "Push-ups",
+				MuscleGroup: "Arms",
+			},
+			{
+				Name:        "Pull-ups",
+				MuscleGroup: "Arms",
+			},
+			// Add more exercises as needed
+		},
 	}
-	expectedID := "workout-id-1"
+	//expectedID := "workout-id-1"
 
 	resolver := &Resolver{
 		AuthService: stub.StubAuthService{},
 	}
 
-	result, err := resolver.Mutation().CreateWorkout(stubContext, stubInput)
+	assert.Panics(t, func() {
+		resolver.Mutation().CreateWorkout(stubContext, stubInput)
+	})
 
-	assert.Error(t, err)  // Function is not implemented, expecting error
-	assert.Nil(t, result) // Result should be nil
-	assert.Equal(t, expectedID, result.ID)
-} */
+	//assert.Error(t, err)  // Function is not implemented, expecting error
+	//assert.Nil(t, result) // Result should be nil
+	//assert.Equal(t, expectedID, result.ID)
+}
 
-/*func TestLogin(t *testing.T) {
+func TestLogin(t *testing.T) {
 	stubContext := context.Background()
 	stubInput := model.Login{
 		Username: "TestUser",
 		Password: "123",
 	}
-	expectedToken := "access-token"
+	stubToken := "randomaccesstoken"
 
 	resolver := &Resolver{
 		AuthService: stub.StubAuthService{},
@@ -136,49 +157,41 @@ func TestCreateExercise(t *testing.T) {
 	result, err := resolver.Mutation().Login(stubContext, stubInput)
 
 	assert.NoError(t, err)
-	assert.Equal(t, expectedToken, result)
+	assert.Equal(t, stubToken, result)
 }
 
 func TestRefreshToken(t *testing.T) {
 	stubContext := context.Background()
 	stubInput := model.RefreshTokenInput{
-		Token: "refresh-token",
+		Token: "randomrefreshtoken",
 	}
-	expectedToken := "new-access-token"
+	//expectedToken := "access-token"
 
 	resolver := &Resolver{
 		AuthService: stub.StubAuthService{},
 	}
 
-	result, err := resolver.Mutation().RefreshToken(stubContext, stubInput)
+	assert.Panics(t, func() {
+		resolver.Mutation().RefreshToken(stubContext, stubInput)
+	})
+}
 
-	assert.Error(t, err) // Function is not implemented, expecting error
-	assert.Equal(t, expectedToken, result)
-} */
-
-/*func TestExercises(t *testing.T) {
+func TestExercises(t *testing.T) {
 	stubContext := context.Background()
 
-	resolver := &Resolver{
-		AuthService: stub.StubAuthService{},
-	}
+	resolver := &Resolver{}
 
-	result, err := resolver.Query().Exercises(stubContext)
+	assert.Panics(t, func() {
+		resolver.Query().Workouts(stubContext)
+	})
+}
 
-	assert.NoError(t, err)
-	assert.NotNil(t, result)
-	assert.Len(t, result, 1) // Assuming the Exercises resolver returns a single dummy exercise
-} */
-
-/*func TestWorkouts(t *testing.T) {
+func TestWorkouts(t *testing.T) {
 	stubContext := context.Background()
 
-	resolver := &Resolver{
-		AuthService: stub.StubAuthService{},
-	}
+	resolver := &Resolver{}
 
-	result, err := resolver.Query().Workouts(stubContext)
-
-	assert.Error(t, err)  // Function is not implemented, expecting error
-	assert.Nil(t, result) // Result should be nil
-} */
+	assert.Panics(t, func() {
+		resolver.Query().Workouts(stubContext)
+	})
+}
