@@ -10,7 +10,13 @@ import (
 	// ...
 )
 
-func CreateExercise(req *pb.NewExercise) (*pb.Exercise, error) {
+type IExerciseService interface {
+	CreateExercise(req *pb.NewExercise) (*pb.Exercise, error)
+}
+
+type ExerciseResolverService struct{}
+
+func (service ExerciseResolverService) CreateExercise(req *pb.NewExercise) (*pb.Exercise, error) {
 	// Get the gRPC client instance
 	grpcClient := client.GetExerciseClient()
 

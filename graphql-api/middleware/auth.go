@@ -8,8 +8,10 @@ import (
 	"github.com/michael-m-truong/fitness-tracker/services"
 )
 
-var userCtxKey = &contextKey{"user"}
+// maybe add some encapsulation soon
+var UserCtxKey = &contextKey{"user"}
 
+// also works as type contextKey string
 type contextKey struct {
 	name string
 }
@@ -47,7 +49,7 @@ func (mw AuthMiddleware) Auth() func(http.Handler) http.Handler {
 			}
 
 			// Put user information in the context
-			ctx := context.WithValue(r.Context(), userCtxKey, authUser)
+			ctx := context.WithValue(r.Context(), UserCtxKey, authUser)
 
 			// Call the next handler with the new context
 			r = r.WithContext(ctx)
@@ -58,6 +60,6 @@ func (mw AuthMiddleware) Auth() func(http.Handler) http.Handler {
 
 // ForContext finds the user from the context. REQUIRES Middleware to have run.
 func ForContext(ctx context.Context) *pb.User {
-	raw, _ := ctx.Value(userCtxKey).(*pb.User)
+	raw, _ := ctx.Value(UserCtxKey).(*pb.User)
 	return raw
 }

@@ -12,7 +12,6 @@ import (
 	"github.com/michael-m-truong/fitness-tracker/graph/model"
 	auth "github.com/michael-m-truong/fitness-tracker/middleware"
 	"github.com/michael-m-truong/fitness-tracker/pb"
-	services "github.com/michael-m-truong/fitness-tracker/services"
 )
 
 // CreateExercise is the resolver for the createExercise field.
@@ -56,11 +55,12 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 		req.Description = *input.Description
 	}
 
-	resp, err := services.CreateExercise(req)
+	resp, err := r.ExerciseService.CreateExercise(req)
 	if err != nil {
 		return nil, err
 	}
 
+	//convert to string
 	newExercise.ID = strconv.Itoa(int(resp.Id))
 	// resp, err := services.CreateExercise(req)
 	// if err != nil {

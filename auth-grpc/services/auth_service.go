@@ -1,13 +1,7 @@
 package service
 
 import (
-	"context"
-
-	"github.com/michael-m-truong/auth-grpc/jwt"
-	"github.com/michael-m-truong/auth-grpc/pb"
 	"golang.org/x/crypto/bcrypt"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 // HashPassword hashes given password
@@ -95,14 +89,14 @@ func CheckPasswordHash(password, hash string) bool {
 // 	return newUser, nil
 // }
 
-func ParseToken(ctx context.Context, req *pb.AccessToken) (*pb.User, error) {
-	tokenStr := req.Token
+// func ParseToken(ctx context.Context, req *pb.AccessToken) (*pb.User, error) {
+// 	tokenStr := req.Token
 
-	username, err := jwt.ParseToken(tokenStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid token")
-	}
+// 	username, err := jwt.ParseToken(tokenStr)
+// 	if err != nil {
+// 		return nil, status.Errorf(codes.InvalidArgument, "Invalid token")
+// 	}
 
-	// For demonstration, returning a user with the parsed username
-	return &pb.User{Username: username}, nil
-}
+// 	// For demonstration, returning a user with the parsed username
+// 	return &pb.User{Username: username}, nil
+// }

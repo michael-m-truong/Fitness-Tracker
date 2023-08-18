@@ -61,7 +61,7 @@ func GetUserIdByUsername(username string) (*int32, error) {
 	}
 
 	// Prepare the SQL query to retrieve user ID by username
-	query := "SELECT id FROM user WHERE username = $1"
+	query := "SELECT id FROM users WHERE username = $1"
 	row := db.QueryRow(query, username)
 
 	var userID int32

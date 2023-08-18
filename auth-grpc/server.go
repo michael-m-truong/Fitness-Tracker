@@ -90,7 +90,7 @@ func (s *authServer) ParseToken(ctx context.Context, req *pb.AccessToken) (*pb.U
 
 	_, err = repository.GetUserIdByUsername(username)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid token")
+		return nil, status.Errorf(codes.InvalidArgument, "UserID not found")
 	}
 
 	// For demonstration, returning a user with the parsed username
