@@ -22,14 +22,14 @@ jobs:
     - name: Run tests and generate coverage report
       run: |
 
-      # run tests in graphql
+        # run tests in graphql
 
         cd graphql-api
         go get -t ./...
         go test -coverprofile=graphql_coverage.out.tmp ./...
         cat graphql_coverage.out.tmp | grep -v "generated.go" > graphql_coverage.out
 
-      # run tests in auth-grpc
+        # run tests in auth-grpc
 
         cd ..
         cd auth-grpc
@@ -37,12 +37,12 @@ jobs:
         # cat coverage.out.tmp | grep -v "generated.go" > graphql_coverage.out
         # go tool cover -func=coverage.out
         
-      # move coverage profiles to root
+        # move coverage profiles to root
         cd ..
         mv graphql-api/graphql_coverage.out.tmp graphql_coverage.out
         mv auth-grpc/auth-grpc_coverage.out.tmp auth-grpc_coverage.out
 
-      # Merge the coverage profiles
+        # Merge the coverage profiles
         cat graphql_coverage.out auth-grpc_coverage.out > coverage.out
         # rm graphql_coverage.out.tmp auth-grpc_coverage.out graphql_coverage.out
 
