@@ -22,6 +22,15 @@ message NewExercise {
     int32 user_id = 4;
 }
 
+message ExerciseIds {
+    repeated int32 exercise_ids = 1;
+}
+
+message ExerciseExistence {
+    bool exists = 1;
+}
+
 service ExerciseService {
     rpc CreateExercise(NewExercise) returns (Exercise);
+    rpc CheckExerciseExists(ExerciseIds) returns (ExerciseExistence);
 }

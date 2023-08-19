@@ -31,3 +31,28 @@ func CreateExercise(ctx context.Context, exercise *pb.NewExercise) (*int, error)
 	// Update the request with the inserted ID
 	return insertedID, nil
 }
+
+func CheckExerciseExists(ctx context.Context, exerciseIds []int32) (bool, error) {
+	// Get DB instance
+	db, err := GetDB()
+	if err != nil {
+		return false, err
+	}
+
+	// Prepare the query to count the number of matching exercises
+	query := `
+		SELECT COUNT(*) FROM exercise
+		WHERE id = ANY($1)
+	`
+
+	var count int
+	err = db.QueryRowContext(ctx, query, exerciseIds).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+
+	// If count is greater than 0, exercises exist
+	exist := count > 0
+
+	return exist, nil
+}

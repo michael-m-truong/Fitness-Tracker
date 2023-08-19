@@ -38,6 +38,20 @@ func (s *exerciseServer) CreateExercise(ctx context.Context, req *pb.NewExercise
 	return exercise, nil
 }
 
+func (s *exerciseServer) CheckExerciseExists(ctx context.Context, req *pb.ExerciseIds) (*pb.ExerciseExistence, error) {
+
+	exist, err := repository.CheckExerciseExists(ctx, req.ExerciseIds)
+	if err != nil {
+		return nil, err
+	}
+
+	exerciseExistence := &pb.ExerciseExistence{
+		Exists: exist,
+	}
+
+	return exerciseExistence, nil
+}
+
 func main() {
 	flag.Parse()
 	// docker run -d --name postgres-container -e POSTGRES_PASSWORD=mysecretpassword -v <volume_name>:/var/lib/postgresql/data -p 5433:5432 postgres:latest

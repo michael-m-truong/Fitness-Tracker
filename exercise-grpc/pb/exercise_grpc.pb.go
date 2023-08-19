@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ExerciseServiceClient interface {
 	CreateExercise(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error)
+	CheckExerciseExists(ctx context.Context, in *ExerciseIds, opts ...grpc.CallOption) (*ExerciseExistence, error)
 }
 
 type exerciseServiceClient struct {
@@ -42,11 +43,21 @@ func (c *exerciseServiceClient) CreateExercise(ctx context.Context, in *NewExerc
 	return out, nil
 }
 
+func (c *exerciseServiceClient) CheckExerciseExists(ctx context.Context, in *ExerciseIds, opts ...grpc.CallOption) (*ExerciseExistence, error) {
+	out := new(ExerciseExistence)
+	err := c.cc.Invoke(ctx, "/pb.ExerciseService/CheckExerciseExists", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExerciseServiceServer is the server API for ExerciseService service.
 // All implementations must embed UnimplementedExerciseServiceServer
 // for forward compatibility
 type ExerciseServiceServer interface {
 	CreateExercise(context.Context, *NewExercise) (*Exercise, error)
+	CheckExerciseExists(context.Context, *ExerciseIds) (*ExerciseExistence, error)
 	mustEmbedUnimplementedExerciseServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedExerciseServiceServer struct {
 
 func (UnimplementedExerciseServiceServer) CreateExercise(context.Context, *NewExercise) (*Exercise, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateExercise not implemented")
+}
+func (UnimplementedExerciseServiceServer) CheckExerciseExists(context.Context, *ExerciseIds) (*ExerciseExistence, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckExerciseExists not implemented")
 }
 func (UnimplementedExerciseServiceServer) mustEmbedUnimplementedExerciseServiceServer() {}
 
@@ -88,6 +102,24 @@ func _ExerciseService_CreateExercise_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExerciseService_CheckExerciseExists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExerciseIds)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExerciseServiceServer).CheckExerciseExists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.ExerciseService/CheckExerciseExists",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExerciseServiceServer).CheckExerciseExists(ctx, req.(*ExerciseIds))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExerciseService_ServiceDesc is the grpc.ServiceDesc for ExerciseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateExercise",
 			Handler:    _ExerciseService_CreateExercise_Handler,
+		},
+		{
+			MethodName: "CheckExerciseExists",
+			Handler:    _ExerciseService_CheckExerciseExists_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
