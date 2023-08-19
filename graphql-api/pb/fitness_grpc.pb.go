@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.23.4
-// source: pb/exercise.proto
+// source: pb/fitness.proto
 
 package pb
 
@@ -101,7 +101,93 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/exercise.proto",
+	Metadata: "pb/fitness.proto",
+}
+
+// WorkoutServiceClient is the client API for WorkoutService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type WorkoutServiceClient interface {
+	CreateWorkout(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error)
+}
+
+type workoutServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewWorkoutServiceClient(cc grpc.ClientConnInterface) WorkoutServiceClient {
+	return &workoutServiceClient{cc}
+}
+
+func (c *workoutServiceClient) CreateWorkout(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error) {
+	out := new(Exercise)
+	err := c.cc.Invoke(ctx, "/pb.WorkoutService/CreateWorkout", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// WorkoutServiceServer is the server API for WorkoutService service.
+// All implementations must embed UnimplementedWorkoutServiceServer
+// for forward compatibility
+type WorkoutServiceServer interface {
+	CreateWorkout(context.Context, *NewExercise) (*Exercise, error)
+	mustEmbedUnimplementedWorkoutServiceServer()
+}
+
+// UnimplementedWorkoutServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedWorkoutServiceServer struct {
+}
+
+func (UnimplementedWorkoutServiceServer) CreateWorkout(context.Context, *NewExercise) (*Exercise, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkout not implemented")
+}
+func (UnimplementedWorkoutServiceServer) mustEmbedUnimplementedWorkoutServiceServer() {}
+
+// UnsafeWorkoutServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to WorkoutServiceServer will
+// result in compilation errors.
+type UnsafeWorkoutServiceServer interface {
+	mustEmbedUnimplementedWorkoutServiceServer()
+}
+
+func RegisterWorkoutServiceServer(s grpc.ServiceRegistrar, srv WorkoutServiceServer) {
+	s.RegisterService(&WorkoutService_ServiceDesc, srv)
+}
+
+func _WorkoutService_CreateWorkout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewExercise)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkoutServiceServer).CreateWorkout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.WorkoutService/CreateWorkout",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkoutServiceServer).CreateWorkout(ctx, req.(*NewExercise))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// WorkoutService_ServiceDesc is the grpc.ServiceDesc for WorkoutService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var WorkoutService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.WorkoutService",
+	HandlerType: (*WorkoutServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateWorkout",
+			Handler:    _WorkoutService_CreateWorkout_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/fitness.proto",
 }
 
 // AuthServiceClient is the client API for AuthService service.
@@ -259,5 +345,5 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/exercise.proto",
+	Metadata: "pb/fitness.proto",
 }

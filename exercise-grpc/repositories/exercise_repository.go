@@ -14,6 +14,7 @@ func CreateExercise(ctx context.Context, exercise *pb.NewExercise) (*int, error)
 	}
 
 	// Prepare the INSERT query with placeholders
+	// TODO: convert user_id to integer for exercise table
 	insertQuery := `
 		INSERT INTO exercise (name, description, muscle_group, user_id)
 		VALUES ($1, $2, $3, $4)

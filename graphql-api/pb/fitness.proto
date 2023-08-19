@@ -18,9 +18,17 @@ message NewExercise {
     int32 user_id = 4;
 }
 
+message NewWorkout {
+    string name = 1;
+    string description = 2;
+    repeated string exercise_ids = 3; // string arr
+    int32 user_id = 4;
+}
+
 message User {
     string username = 1;
     string password = 2;
+    string user_id = 3;
 }
 
 message NewUser {
@@ -35,6 +43,10 @@ message AccessToken {
 
 service ExerciseService {
     rpc CreateExercise(NewExercise) returns (Exercise);
+}
+
+service WorkoutService {
+    rpc CreateWorkout(NewExercise) returns (Exercise);
 }
 
 service AuthService {
