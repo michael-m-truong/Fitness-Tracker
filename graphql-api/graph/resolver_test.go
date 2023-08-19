@@ -168,18 +168,10 @@ func TestCreateWorkout(t *testing.T) {
 	stubInput := model.NewWorkout{
 		Title: "Upper Body Routine",
 		//TODO: Change it to a new type exercise where you just input ID or something
-		Exercise: []*model.ExerciseInput{
-			{
-				Name:        "Push-ups",
-				MuscleGroup: "Arms",
-			},
-			{
-				Name:        "Pull-ups",
-				MuscleGroup: "Arms",
-			},
-			// Add more exercises as needed
-		},
+		ExerciseIds: []string{"1", "2", "3"},
+		// Add more exercises as needed
 	}
+
 	//expectedID := "workout-id-1"
 
 	resolver := &Resolver{

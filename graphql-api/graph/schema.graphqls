@@ -16,6 +16,7 @@ type Equipment {
 type Workout {
     id: ID!
     title: String!
+    description: String
     user: User!
     exercise: [Exercise] #use when want to add exercise to workout
 }
@@ -51,7 +52,7 @@ input NewEquipment {
 
 input NewWorkout {
     title: String!
-    exercise: [ExerciseInput] #use when want to add exercise to workout
+    exerciseIds: [String!]! #use when want to add exercise to workout
 }
 
 input ExerciseInput {

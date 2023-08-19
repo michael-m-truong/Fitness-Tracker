@@ -50,8 +50,8 @@ type NewUser struct {
 }
 
 type NewWorkout struct {
-	Title    string           `json:"title"`
-	Exercise []*ExerciseInput `json:"exercise,omitempty"`
+	Title       string   `json:"title"`
+	ExerciseIds []string `json:"exerciseIds"`
 }
 
 type RefreshTokenInput struct {
@@ -64,8 +64,9 @@ type User struct {
 }
 
 type Workout struct {
-	ID       string      `json:"id"`
-	Title    string      `json:"title"`
-	User     *User       `json:"user"`
-	Exercise []*Exercise `json:"exercise,omitempty"`
+	ID          string      `json:"id"`
+	Title       string      `json:"title"`
+	Description *string     `json:"description,omitempty"`
+	User        *User       `json:"user"`
+	Exercise    []*Exercise `json:"exercise,omitempty"`
 }
