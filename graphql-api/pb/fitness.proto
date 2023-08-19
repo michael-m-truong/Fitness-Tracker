@@ -18,6 +18,11 @@ message NewExercise {
     int32 user_id = 4;
 }
 
+message Workout {
+    int32 id = 1;
+    NewWorkout workout = 2;
+}
+
 message NewWorkout {
     string name = 1;
     string description = 2;
@@ -46,7 +51,7 @@ service ExerciseService {
 }
 
 service WorkoutService {
-    rpc CreateWorkout(NewExercise) returns (Exercise);
+    rpc CreateWorkout(NewWorkout) returns (Workout);
 }
 
 service AuthService {

@@ -108,7 +108,7 @@ var ExerciseService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WorkoutServiceClient interface {
-	CreateWorkout(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error)
+	CreateWorkout(ctx context.Context, in *NewWorkout, opts ...grpc.CallOption) (*Workout, error)
 }
 
 type workoutServiceClient struct {
@@ -119,8 +119,8 @@ func NewWorkoutServiceClient(cc grpc.ClientConnInterface) WorkoutServiceClient {
 	return &workoutServiceClient{cc}
 }
 
-func (c *workoutServiceClient) CreateWorkout(ctx context.Context, in *NewExercise, opts ...grpc.CallOption) (*Exercise, error) {
-	out := new(Exercise)
+func (c *workoutServiceClient) CreateWorkout(ctx context.Context, in *NewWorkout, opts ...grpc.CallOption) (*Workout, error) {
+	out := new(Workout)
 	err := c.cc.Invoke(ctx, "/pb.WorkoutService/CreateWorkout", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -132,7 +132,7 @@ func (c *workoutServiceClient) CreateWorkout(ctx context.Context, in *NewExercis
 // All implementations must embed UnimplementedWorkoutServiceServer
 // for forward compatibility
 type WorkoutServiceServer interface {
-	CreateWorkout(context.Context, *NewExercise) (*Exercise, error)
+	CreateWorkout(context.Context, *NewWorkout) (*Workout, error)
 	mustEmbedUnimplementedWorkoutServiceServer()
 }
 
@@ -140,7 +140,7 @@ type WorkoutServiceServer interface {
 type UnimplementedWorkoutServiceServer struct {
 }
 
-func (UnimplementedWorkoutServiceServer) CreateWorkout(context.Context, *NewExercise) (*Exercise, error) {
+func (UnimplementedWorkoutServiceServer) CreateWorkout(context.Context, *NewWorkout) (*Workout, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkout not implemented")
 }
 func (UnimplementedWorkoutServiceServer) mustEmbedUnimplementedWorkoutServiceServer() {}
@@ -157,7 +157,7 @@ func RegisterWorkoutServiceServer(s grpc.ServiceRegistrar, srv WorkoutServiceSer
 }
 
 func _WorkoutService_CreateWorkout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NewExercise)
+	in := new(NewWorkout)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -169,7 +169,7 @@ func _WorkoutService_CreateWorkout_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/pb.WorkoutService/CreateWorkout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkoutServiceServer).CreateWorkout(ctx, req.(*NewExercise))
+		return srv.(WorkoutServiceServer).CreateWorkout(ctx, req.(*NewWorkout))
 	}
 	return interceptor(ctx, in, info, handler)
 }
