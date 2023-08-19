@@ -176,6 +176,7 @@ func TestCreateWorkout(t *testing.T) {
 	stubInput := model.NewWorkout{
 		Name: "Upper Body Routine",
 		//TODO: Change it to a new type exercise where you just input ID or something
+		Description: ptrString("The arm killer"),
 		ExerciseIds: []int{1, 2, 3},
 		// Add more exercises as needed
 	}
