@@ -21,7 +21,7 @@ message NewExercise {
 message NewWorkout {
     string name = 1;
     string description = 2;
-    repeated string exercise_ids = 3; // string arr
+    repeated int32 exercise_ids = 3; // int arr
     int32 user_id = 4;
 }
 

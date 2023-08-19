@@ -52,7 +52,8 @@ input NewEquipment {
 
 input NewWorkout {
     title: String!
-    exerciseIds: [String!]! #use when want to add exercise to workout
+    description: String
+    exerciseIds: [Int!]! #use when want to add exercise to workout
 }
 
 input ExerciseInput {
