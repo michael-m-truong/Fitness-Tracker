@@ -174,7 +174,7 @@ func TestCreateWorkout(t *testing.T) {
 	stubContext := context.WithValue(ctx, auth.UserCtxKey, authUser)
 
 	stubInput := model.NewWorkout{
-		Title: "Upper Body Routine",
+		Name: "Upper Body Routine",
 		//TODO: Change it to a new type exercise where you just input ID or something
 		ExerciseIds: []int{1, 2, 3},
 		// Add more exercises as needed

@@ -85,7 +85,40 @@ func (r *mutationResolver) CreateWorkout(ctx context.Context, input model.NewWor
 		return &model.Workout{}, fmt.Errorf("access denied")
 	}
 
-	panic(fmt.Errorf("not implemented: CreateWorkout - createWorkout"))
+	// Initialize a new Exercise object with the data provided in the input.
+	newWorkout := model.Workout{
+		Name:        input.Name,
+		Description: input.Description,
+	}
+
+	req := &pb.NewWorkout{
+		Name:   input.Name,
+		UserId: auth_user.UserId,
+	}
+
+	if input.Description != nil {
+		req.Description = *input.Description
+	}
+
+	// // Set a fixed value for the User field.
+	user := model.User{
+		Name: auth_user.Username,
+	}
+	newWorkout.User = &user
+
+	resp, err := r.WorkoutService.CreateWorkout(req)
+	if err != nil {
+		return nil, err
+	}
+
+	newWorkout.ID = strconv.Itoa(int(resp.Id))
+
+	// if input.Description != nil {
+	// 	req.Description = *input.Description
+	// }
+	return &newWorkout, nil
+
+	//panic(fmt.Errorf("not implemented: CreateWorkout - createWorkout"))
 }
 
 // CreateUser is the resolver for the createUser field.

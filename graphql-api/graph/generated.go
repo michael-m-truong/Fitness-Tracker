@@ -83,7 +83,7 @@ type ComplexityRoot struct {
 		Description func(childComplexity int) int
 		Exercise    func(childComplexity int) int
 		ID          func(childComplexity int) int
-		Title       func(childComplexity int) int
+		Name        func(childComplexity int) int
 		User        func(childComplexity int) int
 	}
 }
@@ -300,12 +300,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Workout.ID(childComplexity), true
 
-	case "Workout.title":
-		if e.complexity.Workout.Title == nil {
+	case "Workout.name":
+		if e.complexity.Workout.Name == nil {
 			break
 		}
 
-		return e.complexity.Workout.Title(childComplexity), true
+		return e.complexity.Workout.Name(childComplexity), true
 
 	case "Workout.user":
 		if e.complexity.Workout.User == nil {
@@ -1172,8 +1172,8 @@ func (ec *executionContext) fieldContext_Mutation_createWorkout(ctx context.Cont
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Workout_id(ctx, field)
-			case "title":
-				return ec.fieldContext_Workout_title(ctx, field)
+			case "name":
+				return ec.fieldContext_Workout_name(ctx, field)
 			case "description":
 				return ec.fieldContext_Workout_description(ctx, field)
 			case "user":
@@ -1462,8 +1462,8 @@ func (ec *executionContext) fieldContext_Query_workouts(ctx context.Context, fie
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Workout_id(ctx, field)
-			case "title":
-				return ec.fieldContext_Workout_title(ctx, field)
+			case "name":
+				return ec.fieldContext_Workout_name(ctx, field)
 			case "description":
 				return ec.fieldContext_Workout_description(ctx, field)
 			case "user":
@@ -1738,8 +1738,8 @@ func (ec *executionContext) fieldContext_Workout_id(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Workout_title(ctx context.Context, field graphql.CollectedField, obj *model.Workout) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Workout_title(ctx, field)
+func (ec *executionContext) _Workout_name(ctx context.Context, field graphql.CollectedField, obj *model.Workout) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Workout_name(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1752,7 +1752,7 @@ func (ec *executionContext) _Workout_title(ctx context.Context, field graphql.Co
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Title, nil
+		return obj.Name, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1769,7 +1769,7 @@ func (ec *executionContext) _Workout_title(ctx context.Context, field graphql.Co
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Workout_title(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Workout_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Workout",
 		Field:      field,
@@ -3954,22 +3954,22 @@ func (ec *executionContext) unmarshalInputNewWorkout(ctx context.Context, obj in
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"title", "description", "exerciseIds"}
+	fieldsInOrder := [...]string{"name", "description", "exerciseIds"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "title":
+		case "name":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Title = data
+			it.Name = data
 		case "description":
 			var err error
 
@@ -4376,8 +4376,8 @@ func (ec *executionContext) _Workout(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "title":
-			out.Values[i] = ec._Workout_title(ctx, field, obj)
+		case "name":
+			out.Values[i] = ec._Workout_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

@@ -50,7 +50,7 @@ type NewUser struct {
 }
 
 type NewWorkout struct {
-	Title       string  `json:"title"`
+	Name        string  `json:"name"`
 	Description *string `json:"description,omitempty"`
 	ExerciseIds []int   `json:"exerciseIds"`
 }
@@ -66,7 +66,7 @@ type User struct {
 
 type Workout struct {
 	ID          string      `json:"id"`
-	Title       string      `json:"title"`
+	Name        string      `json:"name"`
 	Description *string     `json:"description,omitempty"`
 	User        *User       `json:"user"`
 	Exercise    []*Exercise `json:"exercise,omitempty"`

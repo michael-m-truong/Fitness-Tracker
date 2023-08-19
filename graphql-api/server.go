@@ -26,6 +26,7 @@ func main() { //either manually go get all deps and generate or add -mod=mod -> 
 	//Init services
 	authService := services.AuthResolverService{}
 	exerciseService := services.ExerciseResolverService{}
+	workoutService := services.WorkoutResolverService{}
 
 	//Init middleware
 	authMiddleware := middleware.AuthMiddleware{
@@ -38,6 +39,7 @@ func main() { //either manually go get all deps and generate or add -mod=mod -> 
 	resolver := &graph.Resolver{
 		AuthService:     authService,
 		ExerciseService: exerciseService,
+		WorkoutService:  workoutService,
 	}
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))

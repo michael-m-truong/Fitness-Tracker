@@ -9,4 +9,5 @@ import services "github.com/michael-m-truong/fitness-tracker/services"
 type Resolver struct {
 	AuthService     services.IAuthService
 	ExerciseService services.IExerciseService
+	WorkoutService  services.IWorkoutService
 }
