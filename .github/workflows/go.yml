@@ -33,6 +33,7 @@ jobs:
 
         cd ..
         cd auth-grpc
+        go get -t ./...
         go test -coverprofile=auth-grpc_coverage.out. ./...
         # cat coverage.out.tmp | grep -v "generated.go" > graphql_coverage.out
         # go tool cover -func=coverage.out
