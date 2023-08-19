@@ -40,8 +40,8 @@ jobs:
         
         # move coverage profiles to root
         cd ..
-        mv graphql-api/graphql_coverage.out.tmp graphql_coverage.out
-        mv auth-grpc/auth-grpc_coverage.out.tmp auth-grpc_coverage.out
+        mv graphql-api/graphql_coverage.out graphql_coverage.out
+        mv auth-grpc/auth-grpc_coverage.out auth-grpc_coverage.out
 
         # Merge the coverage profiles
         cat graphql_coverage.out auth-grpc_coverage.out > coverage.out
