@@ -180,20 +180,24 @@ func TestCreateWorkout(t *testing.T) {
 		// Add more exercises as needed
 	}
 
-	//expectedID := "workout-id-1"
+	expectedID := "12345"
 
 	resolver := &Resolver{
 		AuthService:     stub.StubAuthService{},
 		ExerciseService: stub.StubExerciseService{},
+		WorkoutService:  stub.StubWorkoutService{},
 	}
 
-	assert.Panics(t, func() {
-		resolver.Mutation().CreateWorkout(stubContext, stubInput)
-	})
+	result, err := resolver.Mutation().CreateWorkout(stubContext, stubInput)
+
+	// assert.Panics(t, func() {
+	// 	resolver.Mutation().CreateWorkout(stubContext, stubInput)
+	// })
 
 	//assert.Error(t, err)  // Function is not implemented, expecting error
 	//assert.Nil(t, result) // Result should be nil
-	//assert.Equal(t, expectedID, result.ID)
+	assert.NoError(t, err)
+	assert.Equal(t, expectedID, result.ID)
 }
 
 func TestLogin(t *testing.T) {
