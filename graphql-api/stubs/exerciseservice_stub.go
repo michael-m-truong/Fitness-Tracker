@@ -18,3 +18,11 @@ func (service StubExerciseService) CreateExercise(req *pb.NewExercise) (*pb.Exer
 	}
 	return exercise, nil
 }
+
+func (service StubExerciseService) CheckExerciseExists(*pb.ExerciseIds) (*pb.ExerciseExistence, error) {
+	response := &pb.ExerciseExistence{
+		Exists: true,
+	}
+
+	return response, nil
+}

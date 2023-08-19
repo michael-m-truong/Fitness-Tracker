@@ -12,6 +12,7 @@ import (
 
 type IExerciseService interface {
 	CreateExercise(req *pb.NewExercise) (*pb.Exercise, error)
+	CheckExerciseExists(*pb.ExerciseIds) (*pb.ExerciseExistence, error)
 }
 
 type ExerciseResolverService struct{}
@@ -21,7 +22,7 @@ func (service ExerciseResolverService) CreateExercise(req *pb.NewExercise) (*pb.
 	grpcClient := client.GetExerciseClient()
 
 	// Send the RPC and get the response
-	req.UserId = 21
+	//req.UserId = 21
 	resp, err := grpcClient.CreateExercise(context.Background(), req)
 	if err != nil {
 		log.Fatalf("failed to call gRPC: %v", err)
@@ -33,6 +34,23 @@ func (service ExerciseResolverService) CreateExercise(req *pb.NewExercise) (*pb.
 	log.Printf("Received Muscle Group: %s", resp.Exercise.MuscleGroup)
 	log.Printf("Received Description: %s", resp.Exercise.Description)
 	log.Printf("Received UserID: %d", resp.Id)
+
+	return resp, nil
+}
+
+func (service ExerciseResolverService) CheckExerciseExists(req *pb.ExerciseIds) (*pb.ExerciseExistence, error) {
+	// Get the gRPC client instance
+	grpcClient := client.GetExerciseClient()
+
+	// Send the RPC and get the response
+	//req.UserId = 21
+	resp, err := grpcClient.CheckExerciseExists(context.Background(), req)
+	if err != nil {
+		log.Fatalf("failed to call gRPC: %v", err)
+		return nil, err
+	}
+
+	// Process the response
 
 	return resp, nil
 }

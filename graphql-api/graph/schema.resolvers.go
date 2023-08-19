@@ -80,6 +80,11 @@ func (r *mutationResolver) CreateEquipment(ctx context.Context, input model.NewE
 
 // CreateWorkout is the resolver for the createWorkout field.
 func (r *mutationResolver) CreateWorkout(ctx context.Context, input model.NewWorkout) (*model.Workout, error) {
+	auth_user := auth.ForContext(ctx)
+	if auth_user == nil {
+		return &model.Workout{}, fmt.Errorf("access denied")
+	}
+
 	panic(fmt.Errorf("not implemented: CreateWorkout - createWorkout"))
 }
 

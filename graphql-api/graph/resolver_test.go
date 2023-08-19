@@ -164,7 +164,15 @@ func TestCreateEquipment(t *testing.T) {
 }
 
 func TestCreateWorkout(t *testing.T) {
-	stubContext := context.Background()
+	authUser := &pb.User{
+		Username: "TestUser",
+	}
+
+	ctx := context.Background()
+
+	// Put user information in the context
+	stubContext := context.WithValue(ctx, auth.UserCtxKey, authUser)
+
 	stubInput := model.NewWorkout{
 		Title: "Upper Body Routine",
 		//TODO: Change it to a new type exercise where you just input ID or something
@@ -175,7 +183,8 @@ func TestCreateWorkout(t *testing.T) {
 	//expectedID := "workout-id-1"
 
 	resolver := &Resolver{
-		AuthService: stub.StubAuthService{},
+		AuthService:     stub.StubAuthService{},
+		ExerciseService: stub.StubExerciseService{},
 	}
 
 	assert.Panics(t, func() {
