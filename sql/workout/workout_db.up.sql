@@ -15,6 +15,6 @@ CREATE TABLE "workout_exercise" (
 CREATE TABLE "workout" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "user_id" INTEGER NOT NULL,
-    "title" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "description" TEXT NOT NULL
 );
