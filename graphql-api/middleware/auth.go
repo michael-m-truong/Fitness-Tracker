@@ -44,12 +44,13 @@ func (mw AuthMiddleware) Auth() func(http.Handler) http.Handler {
 			}
 
 			// Convert the gRPC user response to the appropriate struct
-			authUser := &pb.User{
-				Username: user.Username,
-			}
+			// authUser := &pb.User{
+			// 	Username: user.Username,
+			// 	UserId: user.UserId,
+			// }
 
 			// Put user information in the context
-			ctx := context.WithValue(r.Context(), UserCtxKey, authUser)
+			ctx := context.WithValue(r.Context(), UserCtxKey, user)
 
 			// Call the next handler with the new context
 			r = r.WithContext(ctx)

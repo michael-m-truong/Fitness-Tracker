@@ -49,6 +49,7 @@ func (r *mutationResolver) CreateExercise(ctx context.Context, input model.NewEx
 		Name: input.Name,
 		//Description: *input.Description,
 		MuscleGroup: input.MuscleGroup,
+		UserId:      auth_user.UserId,
 	}
 
 	if input.Description != nil {
