@@ -11,6 +11,8 @@ import (
 	"github.com/michael-m-truong/fitness-tracker/pb"
 	stub "github.com/michael-m-truong/fitness-tracker/stubs"
 	"github.com/stretchr/testify/assert" // Import the testify assertion library
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func ptrString(s string) *string {
@@ -55,6 +57,57 @@ func TestAuth(t *testing.T) {
 	auth_user := auth.ForContext(stubContext)
 
 	assert.NotNil(t, auth_user)
+}
+
+// TODO: do access denied for CreateExercise
+func TestCreateExerciseFail(t *testing.T) {
+
+	stubContext := context.Background()
+
+	stubEquipment := model.EquipmentInput{Name: "Barbell"}
+
+	stubInput := model.NewExercise{
+		Name:        "Push-Up",
+		Description: ptrString("Focus on form"),
+		MuscleGroup: "Chest",
+		Equipment:   &stubEquipment,
+	}
+	//expectedID := "123" // Stubbed ID
+
+	resolver := &Resolver{
+		ExerciseService: stub.StubExerciseService{},
+	}
+
+	result, err := resolver.Mutation().CreateExercise(stubContext, stubInput)
+
+	assert.Equal(t, &model.Exercise{}, result)
+	assert.Error(t, err, "Expected an error")
+	assert.EqualError(t, err, "access denied", "Expected error message: access denied")
+}
+
+// TODO: edge cases for CreateUser
+func TestCreateUserFail(t *testing.T) {
+	// Stubbed data and context
+	stubContext := context.Background() // Create a stubed context
+	stubInput := model.NewUser{         // Stub resolver arguments
+		Username: "TestUser",
+		Password: "123",
+	}
+	// expectedCharacter := "randomaccesstoken"
+
+	// Create a new instance of your resolver
+	resolver := &Resolver{
+		AuthService: stub.StubFailAuthService{},
+	}
+
+	// Invoke the resolver function
+	result, err := resolver.Mutation().CreateUser(stubContext, stubInput)
+
+	// Assertions
+	assert.Error(t, err)        // Error should be returned
+	assert.NotNil(t, result)    // Result should not be nil
+	assert.Equal(t, "", result) // Check if the result matches the expected character
+	assert.Equal(t, err, status.Errorf(codes.Internal, "Failed to create user"))
 }
 
 func TestCreateExercise(t *testing.T) {
